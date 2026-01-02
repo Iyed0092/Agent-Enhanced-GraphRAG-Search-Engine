@@ -40,6 +40,7 @@ We utilize a "Swarm Architecture" where different specialized models handle spec
 | **Chunking Agent** | **LM Studio** (Local Server) | Connects to a local server instance (via LM Studio) to handle text cleaning and processing during the ingestion phase. |
 | **The Reranker** | **Qwen3-4B-Instruct** (Local GGUF) | A local LLM instance that evaluates retrieved results from the graph and vector databases to prioritize the most relevant context. |
 | **The Generator** | **Llama 3.3 70B Versatile** (Groq API) | Used for the final answer synthesis and code generation tasks to ensure high-speed and fluent responses. |
+```
 
 ## ⚙️ Advanced Techniques
 
