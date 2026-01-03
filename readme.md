@@ -1,6 +1,15 @@
 # 🔗 Graph Augmented RAG
 
 ## 📝 Project Overview
+**Remark**
+This repository represents an **Agentic Evolution** of my previous work: [Hybrid-Graph-RAG-Engine](https://github.com/Iyed0092/Hybrid-Graph-RAG-Engine).
+
+While the original prototype validated the hybrid architecture, it faced scalability bottlenecks—specifically hitting **Groq API rate limits** (Llama 3.3 70B) during the intensive data ingestion and chunking phases. This iteration resolves those issues by distributing tasks across a **Local Agent Swarm**:
+
+* **Local Ingestion Agent:** I migrated the chunking and context enrichment process to a local **Mistral 14B** reasoning server (via LM Studio). This allows for cost-free, unlimited processing of heavy legal documents.
+* **Local Routing & Reranking:** To further reduce API dependency, I implemented **Qwen 4B Instruct** locally. It acts as a high-speed "Traffic Controller," routing queries (Vector vs. Neo4j) and reranking results with low latency.
+* **Optimized Generation:** I restricted the use of **Llama 3.3 70B** (via Groq) strictly to the final answer synthesis. This ensures we leverage the superior capabilities of a large model for the user-facing output, while keeping the backend mechanics efficient and local.
+
 This project implements a **Graph Augmented Retrieval-Augmented Generation (RAG)** system. It addresses the limitations of standard RAG by combining the semantic search capabilities of **Vector Databases** with the structural reasoning of **Knowledge Graphs (Neo4j)**.
 
 While standard RAG is good at finding similar text, it often fails at "multi-hop" reasoning or understanding complex entity relationships (like dates, people, and hierarchies). Our solution uses a **Hybrid Router** to dynamically choose the best retrieval method for each user query.
@@ -29,7 +38,7 @@ The codebase is modular, separating the decision logic (Router) from the model l
 
  ### Chunk 3: Model Architecture & Roles
 
-```markdown
+
 ## Models & Roles
 
 We utilize a "Swarm Architecture" where different specialized models handle specific tasks to optimize local performance.
@@ -40,7 +49,7 @@ We utilize a "Swarm Architecture" where different specialized models handle spec
 | **Chunking Agent** | **LM Studio** (Local Server) | Connects to a local server instance (via LM Studio) to handle text cleaning and processing during the ingestion phase. |
 | **The Reranker** | **Qwen3-4B-Instruct** (Local GGUF) | A local LLM instance that evaluates retrieved results from the graph and vector databases to prioritize the most relevant context. |
 | **The Generator** | **Llama 3.3 70B Versatile** (Groq API) | Used for the final answer synthesis and code generation tasks to ensure high-speed and fluent responses. |
-```
+
 
 ## ⚙️ Advanced Techniques
 
