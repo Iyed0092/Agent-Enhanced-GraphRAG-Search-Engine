@@ -95,3 +95,18 @@ We integrate **Neo4j** to handle structured relationships that standard vector s
 
 **Why Graph?**
 While vector search finds "similar text," the graph allows us to find exact factual connections. For a query like *"Who signed the decree on January 5th?"*, the system traverses the graph from the `Date` node to the `Document` node and finally to the `Person` node to return the precise answer.
+
+## 🚀 How to Run
+
+### 1. Start the Backend API
+First, launch the core application. This initializes the agent swarm and serves the FastAPI endpoints.
+
+```bash
+python app/main.py
+```
+
+### 2. Launch the User Interface
+Once the backend is running, open a new terminal window and start the Streamlit dashboard:
+```bash
+streamlit run app/dashboard.py
+````
