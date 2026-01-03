@@ -10,14 +10,10 @@ While the original prototype validated the hybrid architecture, it faced scalabi
 * **Local Routing & Reranking:** To further reduce API dependency, I implemented **Qwen 4B Instruct** locally. It acts as a high-speed "Traffic Controller," routing queries (Vector vs. Neo4j) and reranking results with low latency.
 * **Optimized Generation:** I restricted the use of **Llama 3.3 70B** (via Groq) strictly to the final answer synthesis. This ensures we leverage the superior capabilities of a large model for the user-facing output, while keeping the backend mechanics efficient and local.
 
-This project implements a **Graph Augmented Retrieval-Augmented Generation (RAG)** system. It addresses the limitations of standard RAG by combining the semantic search capabilities of **Vector Databases** with the structural reasoning of **Knowledge Graphs (Neo4j)**.
+This project implements a **Graph Augmented Retrieval-Augmented Generation (RAG)** system. It addresses the limitations of standard RAG by combining the semantic search capabilities of **Vector Databases (FAISS)** with the structural reasoning of **Knowledge Graphs (Neo4j)**.
 
 While standard RAG is good at finding similar text, it often fails at "multi-hop" reasoning or understanding complex entity relationships (like dates, people, and hierarchies). Our solution uses a **Hybrid Router** to dynamically choose the best retrieval method for each user query.
 
-## 🔒 Privacy & Local Hosting
-We designed this system to be privacy-first.
-* **Local Inference:** We use **Llama.cpp** and **LM Studio** to run quantized models locally.
-* **Data Security:** No sensitive data is sent to external APIs during the ingestion or retrieval process.
 
 ## 📂 Project Structure
 
@@ -58,7 +54,7 @@ The project follows a modular, agent-centric architecture, separating ingestion 
 ```
 
 
-## Models & Roles
+##✨✨ Models & Roles
 
 We utilize a "Swarm Architecture" where different specialized models handle specific tasks to optimize local performance.
 
