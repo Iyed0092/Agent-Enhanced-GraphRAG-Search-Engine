@@ -21,22 +21,41 @@ We designed this system to be privacy-first.
 
 ## 📂 Project Structure
 
-The codebase is modular, separating the decision logic (Router) from the model loading and settings.
+The project follows a modular, agent-centric architecture, separating ingestion logic from the runtime agent swarm.
 
 ```bash
-📦 graph-augmented-rag
+📦 hybrid-graph-rag-engine
  ┣ 📂 app
+ ┃ ┣ 📂 agents               # The Swarm: Specialized agents for different tasks
+ ┃ ┃ ┣ 📜 graph_agent.py     # Handles Neo4j queries & reasoning
+ ┃ ┃ ┣ 📜 router_agent.py    # Decides between Vector/Graph search
+ ┃ ┃ ┣ 📜 vector_agent.py    # Handles semantic search
+ ┃ ┃ ┗ 📜 writer_agent.py    # Synthesizes the final answer
+ ┃ ┣ 📂 api
+ ┃ ┃ ┗ 📜 routes.py          # FastAPI endpoints
  ┃ ┣ 📂 core
- ┃ ┃ ┣ 📜 settings.py       # Configuration (Paths, API Keys, URLs)
- ┃ ┃ ┗ 📜 llm_factory.py    # Factory to manage local GGUF models & clients
- ┃ ┣ 📜 router.py           # The "Brain": Decides between Vector, Graph, or Hybrid
- ┃ ┗ 📜 main.py             # Application entry point
- ┣ 📂 data                  # Raw documents and processed chunks
- ┣ 📂 models                # Directory for local GGUF model files
- ┗ 📜 requirements.txt      # Dependencies (langchain, neo4j, llama-cpp-python)
- ```
+ ┃ ┃ ┣ 📜 llm_factory.py     # Loads local GGUF models & Groq clients
+ ┃ ┃ ┗ 📜 settings.py        # Config: Paths, Keys, Constants
+ ┃ ┣ 📂 ingestion            # ETL Pipeline
+ ┃ ┃ ┣ 📜 build_graph.py     # Neo4j Graph construction logic
+ ┃ ┃ ┣ 📜 build_vector.py    # FAISS Vector DB construction logic
+ ┃ ┃ ┗ 📜 chunking_strategy.py # Context-aware & semantic chunking logic
+ ┃ ┣ 📂 tools                # Utilities called by agents
+ ┃ ┃ ┣ 📜 graph_tool.py
+ ┃ ┃ ┗ 📜 vector_tool.py
+ ┃ ┣ 📜 dashboard.py         # Streamlit/Gradio Interface
+ ┃ ┗ 📜 main.py              # Application Entry Point
+ ┣ 📂 data
+ ┃ ┣ 📂 index                # Local Vector Store (FAISS)
+ ┃ ┗ 📂 raw_docs             # Source Documents (PDFs)
+ ┣ 📂 scripts
+ ┃ ┗ 📜 reset_db.py          # Utility to clear databases
+ ┣ 📜 .env                   # Environment Secrets (Ignored in Git)
+ ┣ 📜 docker-compose.yml     # Container orchestration
+ ┣ 📜 Dockerfile             # Container definition
+ ┗ 📜 requirements.txt       # Python dependencies
 
- ### Chunk 3: Model Architecture & Roles
+```
 
 
 ## Models & Roles
